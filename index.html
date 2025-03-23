@@ -102,8 +102,8 @@
                     let index = alphabet.indexOf(letter) + 1;
                     encrypted.push((index * 7) ** 2);
                 } else if (digits.includes(letter)) {
-                    let index = digits.indexOf(letter) + 1;
-                    encrypted.push((index * 3) ** 2);
+                    let index = digits.indexOf(letter);
+                    encrypted.push((index * 3 + 2) ** 2); // Offset by 2 to avoid conflicts
                 } else if (letter === " ") {
                     encrypted.push(0);
                 }
@@ -122,12 +122,12 @@
                     decrypted.push(" ");
                 } else {
                     let indexAlpha = Math.sqrt(num) / 7;
-                    let indexDigit = Math.sqrt(num) / 3;
+                    let indexDigit = (Math.sqrt(num) - 2) / 3;
 
-                    if (indexAlpha >= 1 && indexAlpha <= 26) {
+                    if (Number.isInteger(indexAlpha) && indexAlpha >= 1 && indexAlpha <= 26) {
                         decrypted.push(alphabet[indexAlpha - 1]);
-                    } else if (indexDigit >= 1 && indexDigit <= 10) {
-                        decrypted.push(digits[indexDigit - 1]);
+                    } else if (Number.isInteger(indexDigit) && indexDigit >= 0 && indexDigit <= 9) {
+                        decrypted.push(digits[indexDigit]);
                     }
                 }
             }
