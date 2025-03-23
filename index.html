@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encrypt & Decrypt | JavaScript</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #1e1e1e;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(255, 255, 255, 0.2);
+        }
+        h2 {
+            color: #ffcc00;
+        }
+        input[type="text"] {
+            width: 90%;
+            padding: 12px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            outline: none;
+            background-color: #333;
+            color: #fff;
+        }
+        .button-container {
+            margin-top: 15px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+            color: white;
+        }
+        .encrypt-btn {
+            background: #ff5722;
+        }
+        .encrypt-btn:hover {
+            background: #e64a19;
+        }
+        .decrypt-btn {
+            background: #4caf50;
+        }
+        .decrypt-btn:hover {
+            background: #388e3c;
+        }
+        .output-box {
+            width: 90%;
+            padding: 12px;
+            margin-top: 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            background: #252525;
+            color: #fff;
+            text-align: left;
+            min-height: 40px;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Encrypt & Decrypt Text 🔐</h2>
+
+        <input type="text" id="inputText" placeholder="Enter text or encrypted numbers">
+
+        <div class="button-container">
+            <button onclick="encryptText()" class="encrypt-btn">Encrypt 🔒</button>
+            <button onclick="decryptText()" class="decrypt-btn">Decrypt 🔓</button>
+        </div>
+
+        <div class="output-box" id="outputText">Output will appear here...</div>
+    </div>
+
+    <script>
+        const alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
+
+        function encryptText() {
+            const text = document.getElementById("inputText").value.toLowerCase();
+            let encrypted = [];
+
+            for (let letter of text) {
+                if (alphabet.includes(letter)) {
+                    let index = alphabet.indexOf(letter) + 1;
+                    encrypted.push((index * 7) ** 2);
+                } else if (letter === " ") {
+                    encrypted.push(0);
+                }
+            }
+
+            document.getElementById("outputText").innerHTML = "🔒 Encrypted: " + encrypted.join(" ");
+        }
+
+        function decryptText() {
+            const text = document.getElementById("inputText").value.trim();
+            let decrypted = [];
+            let numbers = text.split(" ").map(Number);
+
+            for (let num of numbers) {
+                if (num === 0) {
+                    decrypted.push(" ");
+                } else {
+                    let index = Math.sqrt(num) / 7;
+                    decrypted.push(alphabet[index - 1]); // Adjust for 0-based index
+                }
+            }
+
+            document.getElementById("outputText").innerHTML = "🔓 Decrypted: " + decrypted.join("");
+        }
+    </script>
+
+</body>
+</html>
